@@ -98,3 +98,78 @@ func main() {
 ---
 
 These notes should help clarify the differences between **concurrency** and **parallelism** and their use cases in programming!
+
+## Mutex (Mutual Exclusion)
+
+A **mutex** (short for mutual exclusion) is a synchronization primitive used to prevent multiple goroutines from accessing shared data at the same time. It ensures that only one goroutine can access critical sections of code, which prevents **race conditions**.
+
+- they are used to protect shared resources from concurrent access.
+- only one goroutine can hold a mutex at a time
+
+```golang
+package main
+
+import (
+	"fmt"
+	"sync"
+)
+
+var (
+	counter int
+	mutex   sync.Mutex
+)
+
+func increment(wg *sync.WaitGroup) {
+	defer wg.Done()
+	mutex.Lock()   // Lock the critical section
+	counter++
+	mutex.Unlock() // Unlock when done
+}
+
+func main() {
+	var wg sync.WaitGroup
+	for i := 0; i < 1000; i++ {
+		wg.Add(1)
+		go increment(&wg)
+	}
+	wg.Wait()
+	fmt.Println("Final Counter:", counter) // Output: Final Counter: 1000
+}
+
+```
+
+## Atomic Operations
+
+**Atomic operations** are low-level operations that are guaranteed to be executed as a single, indivisible unit. They are typically used to perform thread-safe operations on shared variables without needing a mutex. In Go, atomic operations are provided by the `sync/atomic` package.
+
+- atompic operators are faster and more lightweight
+
+```golang
+package main
+
+import (
+	"fmt"
+	"sync"
+	"sync/atomic"
+)
+
+var counter int32
+
+func increment(wg *sync.WaitGroup) {
+	defer wg.Done()
+	atomic.AddInt32(&counter, 1) // Atomic increment
+}
+
+func main() {
+	var wg sync.WaitGroup
+	for i := 0; i < 1000; i++ {
+		wg.Add(1)
+		go increment(&wg)
+	}
+	wg.Wait()
+	fmt.Println("Final Counter:", counter) // Output: Final Counter: 1000
+}
+```
+
+- Mutexes: Use for complex data types or when multiple operations need to be synchronized.
+- Atomic operations: Use for simple shared variables (like counters or flags) to achieve thread safety with better performance.
