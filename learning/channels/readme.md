@@ -9,6 +9,7 @@
 - Channels are a **typed conduit** through which you can send and receive values of a specific type.
 - They can be used to **synchronize** goroutines by blocking them until data is sent or received.
 - The channel operations (`send`, `receive`, `close`) can block a goroutine, making them useful for **coordination**.
+- sending data to a channel is a blocking operation
 
 ---
 
@@ -18,7 +19,7 @@
 
 To declare a channel, use the `chan` keyword followed by the type of data the channel will carry:
 
-```gollang
+```golang
 var ch chan int
 ```
 
