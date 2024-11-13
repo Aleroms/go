@@ -45,26 +45,6 @@ go test -bench=.
 - The function body demonstrates how to use code from the package.
 - Expected output is included in a comment at the end of the function.
 
-#### Example (Documentation Test):
-
-```go
-package math
-
-import "fmt"
-
-func ExampleAdd() {
-    result := Add(2, 3)
-    fmt.Println(result)
-    // Output: 5
-}
-```
-
-Run examples as part of `go test` to ensure they work as expected and match the output specified.
-
-#### Explanation:
-
-- **`// Output:`** comments specify the expected output.
-- Example functions help document code usage and verify that documentation matches actual behavior.
 
 ---
 

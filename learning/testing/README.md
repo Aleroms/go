@@ -1,4 +1,4 @@
-# Testing, Benchmarking & Examples in Go
+# Testing in Go
 
 ## Tests
 
@@ -52,5 +52,3 @@ go test
 
 - Use `t.Error` or `t.Errorf` to log test failures.
 - Use `t.Fatal` or `t.Fatalf` if the test should stop immediately upon failure.
-
-
